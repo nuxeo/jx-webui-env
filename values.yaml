@@ -3,6 +3,15 @@ jenkins:
   Master:
     Image: $DOCKER_REGISTRY/nuxeo/webui-jenkinsx
     ImageTag: 0.0.1
+  Persistence:
+    volumes:
+      - name: jenkins-secrets
+        secret:
+          secretName: jenkins-secrets
+    mounts:
+      - name: jenkins-secrets
+        readOnly: true
+        mountPath: /run/secrets/jenkins
   Servers:
     Global:
       EnvVars:
