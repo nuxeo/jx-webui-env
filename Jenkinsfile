@@ -46,9 +46,9 @@ pipeline {
         container('jx-base') {
           echo "Upgrade Jenkins X platform"
           script {
-            // get the existing docker registry auth
-            def dockerAuth = sh(
-              script: "jx step credential -s jenkins-docker-cfg -k config.json | jq -r '.auths|values[].auth'",
+            // get the existing docker config
+            def dockerConfig = sh(
+              script: "jx step credential -s jenkins-docker-cfg -k config.json | tr -d '\\n'",
               returnStdout: true
             ).trim();
 
@@ -58,7 +58,7 @@ pipeline {
               returnStdout: true
             ).trim();
 
-            withEnv(["PUBLIC_DOCKER_REGISTRY_AUTH=${dockerAuth}", "NPM_TOKEN=${npmToken}"]) {
+            withEnv(["DOCKER_REGISTRY_CONFIG=${dockerConfig}", "NPM_TOKEN=${npmToken}"]) {
               sh """
               # initialize Helm without installing Tiller
               helm init --client-only --service-account ${SERVICE_ACCOUNT}
