@@ -16,6 +16,7 @@ jenkins:
     Global:
       EnvVars:
         PUBLIC_DOCKER_REGISTRY: docker.packages.nuxeo.com
+        PRIVATE_DOCKER_REGISTRY: docker-private.packages.nuxeo.com
   Agent:
     PodTemplates:
       Nodejs-Nuxeo:
@@ -106,13 +107,7 @@ jenkins:
 PipelineSecrets:
   NPMToken: $NPM_TOKEN
   DockerConfig: |-
-    {
-      "auths": {
-        "docker.packages.nuxeo.com": {
-          "auth": "$PUBLIC_DOCKER_REGISTRY_AUTH"
-        }
-      }
-    }
+    $DOCKER_REGISTRY_CONFIG
 
 nexus:
   persistence:
