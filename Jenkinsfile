@@ -71,6 +71,7 @@ pipeline {
 
               # upgrade Jenkins X platform
               jx upgrade platform --namespace=webui \
+                --version 2.0.1547 \
                 --local-cloud-environment \
                 --always-upgrade \
                 --cleanup-temp-files=true \
