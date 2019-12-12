@@ -1,4 +1,12 @@
 # Override configuration from https://github.com/jenkins-x/jenkins-x-platform/blob/master/jenkins-x-platform/values.yaml
+expose:
+  config:
+    domain: dev.nuxeo.com
+    exposer: Ingress
+    http: true
+    tlsacme: true
+    tlsSecretName: webui-cluster-https-tls
+    urltemplate: '"{{.Service}}.{{.Namespace}}.{{.Domain}}"'
 jenkins:
   Master:
     Image: $DOCKER_REGISTRY/nuxeo/webui-jenkinsx
