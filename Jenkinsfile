@@ -76,7 +76,7 @@ pipeline {
 
               # upgrade Jenkins X platform
               jx upgrade platform --namespace=${NAMESPACE} \
-                --version 2.0.1547 \
+                --version 2.0.1824 \
                 --local-cloud-environment \
                 --always-upgrade \
                 --cleanup-temp-files=true \
