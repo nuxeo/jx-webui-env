@@ -5,7 +5,7 @@ expose:
     exposer: Ingress
     http: true
     tlsacme: true
-    tlsSecretName: webui-cluster-https-tls
+    tlsSecretName: $NAMESPACE-tls
     urltemplate: '"{{.Service}}.{{.Namespace}}.{{.Domain}}"'
 jenkins:
   Master:
