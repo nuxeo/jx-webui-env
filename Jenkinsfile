@@ -32,19 +32,24 @@ void setGitHubBuildStatus(String context, String message, String state) {
   ])
 }
 
+String getTargetNamespace() {
+  return BRANCH_NAME == 'master' ? 'webui' : 'webui-staging'
+}
+
 pipeline {
   agent {
     label 'jenkins-jx-base'
   }
   environment {
     SERVICE_ACCOUNT = 'jenkins'
+    NAMESPACE = getTargetNamespace()
   }
   stages {
     stage('Upgrade Jenkins X platform') {
       steps {
         setGitHubBuildStatus('upgrade', 'Upgrade Jenkins X platform', 'PENDING')
         container('jx-base') {
-          echo "Upgrade Jenkins X platform"
+          echo "Upgrade Jenkins X ${NAMESPACE} platform"
           script {
             // get the existing docker config
             def dockerConfig = sh(
@@ -70,7 +75,7 @@ pipeline {
               envsubst < values.yaml > myvalues.yaml
 
               # upgrade Jenkins X platform
-              jx upgrade platform --namespace=webui \
+              jx upgrade platform --namespace=${NAMESPACE} \
                 --version 2.0.1547 \
                 --local-cloud-environment \
                 --always-upgrade \
