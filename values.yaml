@@ -123,4 +123,4 @@ docker-registry:
 
 nexus:
   persistence:
-    size: 32Gi
+    size: 300Gi
