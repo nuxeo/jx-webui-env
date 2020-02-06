@@ -102,7 +102,7 @@ jenkins:
             Image: gcr.io/jenkinsxio/builder-maven-nodejs:0.1.815
             Privileged: true
             # Bump request and limits for functional tests
-            RequestCpu: "2"  
+            RequestCpu: "3"
             RequestMemory: "4Gi"
             LimitCpu: "4"
             LimitMemory: "8Gi"
