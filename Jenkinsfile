@@ -63,7 +63,11 @@ pipeline {
               returnStdout: true
             ).trim();
 
-            withEnv(["DOCKER_REGISTRY_CONFIG=${dockerConfig}", "NPM_TOKEN=${npmToken}"]) {
+            withEnv([
+              "INTERNAL_DOCKER_REGISTRY=${DOCKER_REGISTRY}",
+              "DOCKER_REGISTRY_CONFIG=${dockerConfig}",
+              "NPM_TOKEN=${npmToken}"
+            ]) {
               sh """
               # initialize Helm without installing Tiller
               helm init --client-only --service-account ${SERVICE_ACCOUNT}
@@ -74,7 +78,7 @@ pipeline {
               # replace env vars in values.yaml
               # specify them explicitly to not replace DOCKER_REGISTRY which needs to be relative to the upgraded namespace:
               # webui-staging (PR) or webui (master)
-              envsubst '\${NAMESPACE} \${DOCKER_REGISTRY_CONFIG} \${NPM_TOKEN}' < values.yaml > myvalues.yaml
+              envsubst '\${NAMESPACE} \${INTERNAL_DOCKER_REGISTRY} \${DOCKER_REGISTRY_CONFIG} \${NPM_TOKEN}' < values.yaml > myvalues.yaml
 
               # upgrade Jenkins X platform
               jx upgrade platform --namespace=${NAMESPACE} \

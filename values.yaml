@@ -9,7 +9,7 @@ expose:
     urltemplate: '"{{.Service}}.{{.Namespace}}.{{.Domain}}"'
 jenkins:
   Master:
-    Image: $DOCKER_REGISTRY/nuxeo/webui-jenkinsx
+    Image: $INTERNAL_DOCKER_REGISTRY/nuxeo/webui-jenkinsx
     ImageTag: 0.0.4
   Persistence:
     volumes:
