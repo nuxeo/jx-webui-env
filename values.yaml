@@ -99,7 +99,7 @@ jenkins:
             RequestMemory: "128Mi"
             Args: "${computer.jnlpmac} ${computer.name}"
           MavenNodejs:
-            Image: gcr.io/jenkinsxio/builder-maven-nodejs:0.1.815
+            Image: $DOCKER_REGISTRY/nuxeo/builder-maven-nodejs-chrome:latest
             Privileged: true
             # Bump request and limits for functional tests
             RequestCpu: "2"  

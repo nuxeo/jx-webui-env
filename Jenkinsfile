@@ -72,7 +72,9 @@ pipeline {
               helm repo add jenkins-x http://chartmuseum.jenkins-x.io
 
               # replace env vars in values.yaml
-              envsubst < values.yaml > myvalues.yaml
+              # specify them explicitly to not replace DOCKER_REGISTRY which needs to be relative to the upgraded namespace:
+              # webui-staging (PR) or webui (master)
+              envsubst '\${NAMESPACE} \${DOCKER_REGISTRY_CONFIG} \${NPM_TOKEN}' < values.yaml > myvalues.yaml
 
               # upgrade Jenkins X platform
               jx upgrade platform --namespace=${NAMESPACE} \
@@ -81,25 +83,13 @@ pipeline {
                 --always-upgrade \
                 --cleanup-temp-files=true \
                 --batch-mode
+
+              # restart Jenkins pod
+              kubectl scale deployment jenkins -n ${NAMESPACE} --replicas 0
+              kubectl scale deployment jenkins -n ${NAMESPACE} --replicas 1
             """
             }
           }
-
-          // force upgrade of jenkins pod
-          // https://jira.nuxeo.com/browse/NXBT-2889
-          // script {
-          //   def jenkinsPod = sh(
-          //     script: "kubectl get pod -l app=jenkins -o jsonpath='{..metadata.name}'",
-          //     returnStdout: true
-          //   ).trim()
-          //   if (jenkinsPod) {
-          //     // delete jenkins pod to recreate it
-          //     sh "kubectl delete pod ${jenkinsPod} --ignore-not-found=true"
-          //     echo "Deleted pod ${jenkinsPod} to recreate it."
-          //   } else {
-          //     echo "No jenkins pod found, won't recreate it."
-          //   }
-          // }
         }
       }
       post {
