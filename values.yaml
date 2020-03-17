@@ -102,10 +102,10 @@ jenkins:
             Image: $DOCKER_REGISTRY/nuxeo/builder-maven-nodejs-chrome:latest
             Privileged: true
             # Bump request and limits for functional tests
-            RequestCpu: "3"
-            RequestMemory: "4Gi"
-            LimitCpu: "4"
-            LimitMemory: "8Gi"
+            RequestCpu: "4"
+            RequestMemory: "3Gi"
+            LimitCpu: "6"
+            LimitMemory: "4Gi"
             # You may want to change this to true while testing a new image
             # AlwaysPullImage: true
             Command: "/bin/sh -c"
