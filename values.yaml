@@ -10,7 +10,7 @@ expose:
 jenkins:
   Master:
     Image: $INTERNAL_DOCKER_REGISTRY/nuxeo/webui-jenkinsx
-    ImageTag: 0.0.4
+    ImageTag: 0.0.5
   Persistence:
     volumes:
       - name: jenkins-secrets
