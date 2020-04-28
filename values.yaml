@@ -7,6 +7,58 @@ expose:
     tlsacme: true
     tlsSecretName: $NAMESPACE-tls
     urltemplate: '"{{.Service}}.{{.Namespace}}.{{.Domain}}"'
+gcactivities:
+  role:
+    enabled: true
+    rules:
+    - apiGroups:
+      - jenkins.io
+      resources:
+      - pipelineactivities
+      verbs:
+      - list
+      - delete
+    - apiGroups:
+      - jenkins.io
+      resources:
+      - environments
+      verbs:
+      - get
+      - list
+      - patch
+      - update
+      - watch
+    - apiGroups:
+      - jenkins.io
+      resources:
+      - plugins
+      verbs:
+      - get
+      - list
+      - watch
+    - apiGroups:
+      - ""
+      resources:
+      - secrets
+      - services
+      verbs:
+      - get
+      - list
+    - apiGroups:
+      - apps
+      resources:
+      - deployments
+      verbs:
+      - get
+    - apiGroups:
+      - tekton.dev
+      resources:
+      - pipelineruns
+      verbs:
+      - get
+      - list
+      - watch
+      - delete
 jenkins:
   Master:
     Image: $INTERNAL_DOCKER_REGISTRY/nuxeo/webui-jenkinsx
