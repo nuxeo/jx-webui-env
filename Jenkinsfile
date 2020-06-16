@@ -36,11 +36,16 @@ String getTargetNamespace() {
   return BRANCH_NAME == 'master' ? 'webui' : 'webui-staging'
 }
 
+String getDryRun() {
+  return BRANCH_NAME == 'master' ? 'false' : 'true'
+}
+
 pipeline {
   agent {
     label 'jenkins-jx-base'
   }
   environment {
+    DRY_RUN = getDryRun()
     SERVICE_ACCOUNT = 'jenkins'
     NAMESPACE = getTargetNamespace()
   }
@@ -78,7 +83,7 @@ pipeline {
               # replace env vars in values.yaml
               # specify them explicitly to not replace DOCKER_REGISTRY which needs to be relative to the upgraded namespace:
               # webui-staging (PR) or webui (master)
-              envsubst '\${NAMESPACE} \${INTERNAL_DOCKER_REGISTRY} \${DOCKER_REGISTRY_CONFIG} \${NPM_TOKEN}' < values.yaml > myvalues.yaml
+              envsubst '\${NAMESPACE} \${INTERNAL_DOCKER_REGISTRY} \${DOCKER_REGISTRY_CONFIG} \${NPM_TOKEN} \${DRY_RUN}' < values.yaml > myvalues.yaml
 
               # upgrade Jenkins X platform
               jx upgrade platform --namespace=${NAMESPACE} \
