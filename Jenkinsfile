@@ -68,10 +68,17 @@ pipeline {
               returnStdout: true
             ).trim();
 
+            // get the existing nexus password
+            def packagesPassword = sh(
+              script: "jx step credential -s packages.nuxeo.com-auth -k password",
+              returnStdout: true
+            ).trim();
+
             withEnv([
               "INTERNAL_DOCKER_REGISTRY=${DOCKER_REGISTRY}",
               "DOCKER_REGISTRY_CONFIG=${dockerConfig}",
-              "NPM_TOKEN=${npmToken}"
+              "NPM_TOKEN=${npmToken}",
+              "PACKAGES_PASSWORD=${packagesPassword}",
             ]) {
               sh """
               # initialize Helm without installing Tiller
@@ -83,7 +90,7 @@ pipeline {
               # replace env vars in values.yaml
               # specify them explicitly to not replace DOCKER_REGISTRY which needs to be relative to the upgraded namespace:
               # webui-staging (PR) or webui (master)
-              envsubst '\${NAMESPACE} \${INTERNAL_DOCKER_REGISTRY} \${DOCKER_REGISTRY_CONFIG} \${NPM_TOKEN} \${DRY_RUN}' < values.yaml > myvalues.yaml
+              envsubst '\${NAMESPACE} \${INTERNAL_DOCKER_REGISTRY} \${DOCKER_REGISTRY_CONFIG} \${NPM_TOKEN} \${PACKAGES_PASSWORD} \${DRY_RUN}' < values.yaml > myvalues.yaml
 
               # upgrade Jenkins X platform
               jx upgrade platform --namespace=${NAMESPACE} \

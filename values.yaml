@@ -169,6 +169,27 @@ PipelineSecrets:
   NPMToken: $NPM_TOKEN
   DockerConfig: |-
     $DOCKER_REGISTRY_CONFIG
+  MavenSettingsXML: |-
+    <settings>
+      <!-- sets the local maven repository outside of the ~/.m2 folder for easier mounting of secrets and repo -->
+      <localRepository>${user.home}/.mvnrepository</localRepository>
+      <!-- lets disable the download progress indicator that fills up logs -->
+      <interactiveMode>false</interactiveMode>
+      <mirrors>
+        <mirror>
+          <id>nexus</id>
+          <mirrorOf>external:*</mirrorOf>
+          <url>https://packages.nuxeo.com/repository/maven-internal/</url>
+        </mirror>
+      </mirrors>
+      <servers>
+        <server>
+          <id>nexus</id>
+          <username>deploymentJX</username>
+          <password>$PACKAGES_PASSWORD</password>
+        </server>
+      </servers>
+    </settings>
 
 docker-registry:
   persistence:
