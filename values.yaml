@@ -11,54 +11,54 @@ gcactivities:
   role:
     enabled: true
     rules:
-    - apiGroups:
-      - jenkins.io
-      resources:
-      - pipelineactivities
-      verbs:
-      - list
-      - delete
-    - apiGroups:
-      - jenkins.io
-      resources:
-      - environments
-      verbs:
-      - get
-      - list
-      - patch
-      - update
-      - watch
-    - apiGroups:
-      - jenkins.io
-      resources:
-      - plugins
-      verbs:
-      - get
-      - list
-      - watch
-    - apiGroups:
-      - ""
-      resources:
-      - secrets
-      - services
-      verbs:
-      - get
-      - list
-    - apiGroups:
-      - apps
-      resources:
-      - deployments
-      verbs:
-      - get
-    - apiGroups:
-      - tekton.dev
-      resources:
-      - pipelineruns
-      verbs:
-      - get
-      - list
-      - watch
-      - delete
+      - apiGroups:
+          - jenkins.io
+        resources:
+          - pipelineactivities
+        verbs:
+          - list
+          - delete
+      - apiGroups:
+          - jenkins.io
+        resources:
+          - environments
+        verbs:
+          - get
+          - list
+          - patch
+          - update
+          - watch
+      - apiGroups:
+          - jenkins.io
+        resources:
+          - plugins
+        verbs:
+          - get
+          - list
+          - watch
+      - apiGroups:
+          - ""
+        resources:
+          - secrets
+          - services
+        verbs:
+          - get
+          - list
+      - apiGroups:
+          - apps
+        resources:
+          - deployments
+        verbs:
+          - get
+      - apiGroups:
+          - tekton.dev
+        resources:
+          - pipelineruns
+        verbs:
+          - get
+          - list
+          - watch
+          - delete
 jenkins:
   Master:
     Image: $INTERNAL_DOCKER_REGISTRY/nuxeo/webui-jenkinsx
@@ -86,9 +86,9 @@ jenkins:
         Label: jenkins-nodejs-nuxeo
         DevPodPorts: 9229, 3000, 8080
         volumes:
-        - type: Secret
-          secretName: jenkins-docker-cfg
-          mountPath: /home/jenkins/.docker
+          - type: Secret
+            secretName: jenkins-docker-cfg
+            mountPath: /home/jenkins/.docker
         EnvVars:
           JENKINS_URL: http://jenkins:8080
           GIT_COMMITTER_EMAIL: webui+jx-bot@nuxeo.com
@@ -104,7 +104,7 @@ jenkins:
             Image: jenkinsci/jnlp-slave:3.26-1-alpine
             RequestCpu: "100m"
             RequestMemory: "128Mi"
-            Args: '${computer.jnlpmac} ${computer.name}'
+            Args: "${computer.jnlpmac} ${computer.name}"
           Nodejs:
             Image: gcr.io/jenkinsxio/builder-nodejs:0.1.815
             Privileged: true
@@ -133,7 +133,7 @@ jenkins:
             secretName: jenkins-release-gpg
             mountPath: /home/jenkins/.gnupg
         EnvVars:
-          _JAVA_OPTIONS: '-XX:+UnlockExperimentalVMOptions -Dsun.zip.disableMemoryMapping=true -XX:+UseParallelGC -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90'
+          _JAVA_OPTIONS: "-XX:+UnlockExperimentalVMOptions -Dsun.zip.disableMemoryMapping=true -XX:+UseParallelGC -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90"
           JENKINS_URL: http://jenkins:8080
           GIT_COMMITTER_EMAIL: webui+jx-bot@nuxeo.com
           GIT_AUTHOR_EMAIL: webui+jx-bot@nuxeo.com
