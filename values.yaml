@@ -99,6 +99,8 @@ jenkins:
           DOCKER_CONFIG: /home/jenkins/.docker/
           NPM_CONFIG_REGISTRY: https://packages.nuxeo.com/repository/npm-all/
         ServiceAccount: jenkins
+        NodeSelector:
+          team: ui
         Containers:
           Jnlp:
             Image: jenkinsci/jnlp-slave:3.26-1-alpine
@@ -145,6 +147,8 @@ jenkins:
           MAVEN_OPTS: -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
           NPM_CONFIG_REGISTRY: https://packages.nuxeo.com/repository/npm-all/
         ServiceAccount: jenkins
+        NodeSelector:
+          team: ui
         Containers:
           Jnlp:
             Image: jenkinsci/jnlp-slave:3.26-1-alpine
@@ -164,6 +168,20 @@ jenkins:
             Command: "/bin/sh -c"
             Args: "cat"
             Tty: true
+      JX-base:
+        # fix jx create devpod -l jx-base
+        DevPodPorts: 9999
+        volumes:
+          - type: Secret
+            secretName: jenkins-release-gpg
+            mountPath: /home/jenkins/.gnupg
+        EnvVars:
+          GIT_COMMITTER_EMAIL: webui+jx-bot@nuxeo.com
+          GIT_AUTHOR_EMAIL: webui+jx-bot@nuxeo.com
+          GIT_AUTHOR_NAME: nuxeo-web-ui-jx-bot
+          GIT_COMMITTER_NAME: nuxeo-web-ui-jx-bot
+        NodeSelector:
+          team: ui
 
 PipelineSecrets:
   NPMToken: $NPM_TOKEN

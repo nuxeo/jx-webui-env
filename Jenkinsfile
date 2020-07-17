@@ -100,6 +100,8 @@ pipeline {
                 --cleanup-temp-files=true \
                 --batch-mode
 
+              ./tools/podTemplateTolerationPatch.sh
+
               # restart Jenkins pod
               kubectl scale deployment jenkins -n ${NAMESPACE} --replicas 0
               kubectl scale deployment jenkins -n ${NAMESPACE} --replicas 1
