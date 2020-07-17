@@ -1,0 +1,10 @@
+  <yaml>
+    apiVersion: v1
+    kind: Pod
+    spec:
+      tolerations:
+      - key: team
+        operator: Equal
+        value: ui
+        effect: NoSchedule
+  </yaml>
