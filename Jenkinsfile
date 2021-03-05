@@ -85,7 +85,7 @@ pipeline {
               helm init --client-only --service-account ${SERVICE_ACCOUNT} --stable-repo-url=https://charts.helm.sh/stable
 
               # add local chart repository
-              helm repo add jenkins-x http://chartmuseum.jenkins-x.io
+              helm repo add jenkins-x https://storage.googleapis.com/chartmuseum.jenkins-x.io
 
               # replace env vars in values.yaml
               # specify them explicitly to not replace DOCKER_REGISTRY which needs to be relative to the upgraded namespace:
@@ -94,7 +94,7 @@ pipeline {
 
               # upgrade Jenkins X platform
               jx upgrade platform --namespace=${NAMESPACE} \
-                --version 2.0.1824 \
+                --version 2.0.2412 \
                 --local-cloud-environment \
                 --always-upgrade \
                 --cleanup-temp-files=true \

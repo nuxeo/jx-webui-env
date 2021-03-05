@@ -60,6 +60,7 @@ gcactivities:
           - watch
           - delete
 jenkins:
+  enabled: true
   Master:
     Image: $INTERNAL_DOCKER_REGISTRY/nuxeo/webui-jenkinsx
     ImageTag: 0.0.6
