@@ -82,7 +82,7 @@ pipeline {
             ]) {
               sh """
               # initialize Helm without installing Tiller
-              helm init --client-only --service-account ${SERVICE_ACCOUNT}
+              helm init --client-only --service-account ${SERVICE_ACCOUNT} --stable-repo-url=https://charts.helm.sh/stable
 
               # add local chart repository
               helm repo add jenkins-x http://chartmuseum.jenkins-x.io
