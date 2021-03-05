@@ -62,7 +62,7 @@ gcactivities:
 jenkins:
   Master:
     Image: $INTERNAL_DOCKER_REGISTRY/nuxeo/webui-jenkinsx
-    ImageTag: 0.0.5
+    ImageTag: 0.0.6
   Persistence:
     volumes:
       - name: jenkins-secrets
